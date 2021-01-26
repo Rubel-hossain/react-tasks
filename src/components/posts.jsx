@@ -5,10 +5,10 @@ import "../assets/scss/posts.scss";
 export default function Posts() {
   const { state, dispatch } = useContext(PostsContext);
   const [postsData, setPostsData] = useState([]);
-  const [postsPerPage, setPostsPerPage] = useState(10);
+  const [postsPerPage, setPostsPerPage] = useState(3);
   const view_posts_data = postsData.slice(0, postsPerPage);
   useEffect(() => {
-    setPostsData(state.todos);
+    setPostsData(state.posts);
   }, []);
 
   const handleLoadMore = () => {
@@ -22,7 +22,7 @@ export default function Posts() {
       <div className="posts-wrapper mt-5">
         <h2>All Posts</h2>
         <ul className="posts-lists">
-          {state.todos.map((posts) => (
+          {view_posts_data.map((posts) => (
             <li key={posts.id}>
               <Link to={`post_details/${posts.id}`}>{posts.title}</Link>
             </li>

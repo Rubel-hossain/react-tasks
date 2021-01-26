@@ -1,52 +1,36 @@
-import { v4 as uuidv4 } from 'uuid';
-export const todosReducer = (state,action)=>{
+export const postsReducer = (state,action)=>{
     switch(action.type){
-        case "ADD_TODO":
-            const newTodo = {
-                userId: 9,
-                id: uuidv4(),
-                title: action.payload,
-                body: "dddd"
-            };
-            const addedTodos = [...state.todos,newTodo];
+        case "ADD_POST":
+            const addedPosts = [...state.posts,action.payload];
             return {
                 ...state,
-                todos: addedTodos
+                posts: addedPosts
             };
-        case "TOGGLE_TODOS":
-            const toggleTodos = state.todos.map(todo=>todo.id === action.payload.id ? {...action.payload,completed: !action.payload.completed} : todo)
+        case "SET_CURRENT_POST":
             return {
                 ...state,
-                todos: toggleTodos
-            };
-        case "SET_CURRENT_TODO":
-            
-            return {
-                ...state,
-                currentTodo: action.payload
+                currentPost: action.payload
             };
         case "REMOVE":
-            const filterTodos = state.todos.filter(todo=>todo.id !== action.payload.id);
+            const filterPosts = state.posts.filter(post=>post.id !== action.payload.id);
             return {
                 ...state,
-                todos: filterTodos
+                posts: filterPosts
             };
-        case "UPDATE_TODO":
-            
-            const updatedTodo = {
-                ...state.currentTodo,
-                title: action.payload
-            };
-            const updatedTodoIndex = state.todos.findIndex(t=>t.id === state.currentTodo.id);
-            const updatedTodos = [
-                ...state.todos.slice(0,updatedTodoIndex),
-                updatedTodo,
-                ...state.todos.slice(updatedTodoIndex + 1)
+        case "UPDATE_POST":
+            console.log(action.payload);
+
+            const updatedPostIndex = state.posts.findIndex(t=>t.id === state.currentPost.id);
+            const updatedPosts = [
+                ...state.posts.slice(0,updatedPostIndex),
+                action.payload,
+                ...state.posts.slice(updatedPostIndex + 1)
             ];
-            console.log(updatedTodos);
+            
             return {
                 ...state,
-                todos: updatedTodos
+                posts: updatedPosts,
+                currentPost: {}
             };
             
         default:
